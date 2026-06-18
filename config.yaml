@@ -1,0 +1,133 @@
+# 电商价格监控系统配置文件
+
+# 数据库配置
+database:
+  mysql:
+    host: 127.0.0.1
+    port: 3306
+    user: root
+    password: your_password
+    database: price_monitor
+    charset: utf8mb4
+    pool_size: 10
+
+  mongodb:
+    uri: mongodb://127.0.0.1:27017
+    database: price_monitor
+    collection_products: products
+    collection_history: price_history
+
+  redis:
+    url: redis://127.0.0.1:6379/0
+    # Redis 键前缀
+    dupefilter_key: price_monitor:dupefilter
+    queue_key: price_monitor:requests
+
+# 爬虫配置
+crawler:
+  # 默认爬取间隔 (秒)
+  download_delay: 2
+  # 并发请求数
+  concurrent_requests: 8
+  # 每个域名并发数
+  concurrent_requests_per_domain: 4
+  # 请求超时时间 (秒)
+  timeout: 30
+  # 最大重试次数
+  max_retries: 3
+  # 自动限速
+  autothrottle:
+    enabled: true
+    min_delay: 1
+    max_delay: 10
+    target_concurrency: 2.0
+
+# 代理池配置
+proxy:
+  enabled: false
+  # 代理API地址 (从代理服务获取)
+  api_url: http://proxy-api.example.com/get
+  # 代理刷新间隔 (秒)
+  refresh_interval: 60
+  # 代理池大小
+  pool_size: 20
+  # 自定义代理列表
+  proxy_list:
+    - http://proxy1:8080
+    - http://proxy2:8080
+    - http://proxy3:8080
+
+# 目标平台配置
+platforms:
+  jd:
+    enabled: true
+    base_url: https://search.jd.com
+    # 搜索关键词列表
+    keywords:
+      - 手机
+      - 笔记本电脑
+      - 耳机
+    # 每个关键词最大页数
+    max_pages: 10
+
+  taobao:
+    enabled: true
+    base_url: https://s.taobao.com
+    keywords:
+      - 手机
+      - 笔记本电脑
+      - 耳机
+    max_pages: 5
+    # 淘宝需要登录，配置账号信息
+    login:
+      username: ""
+      password: ""
+      # 是否使用 Selenium 登录
+      use_selenium: true
+
+  suning:
+    enabled: true
+    base_url: https://search.suning.com
+    api_url: https://search.suning.com/api
+    keywords:
+      - 手机
+      - 笔记本电脑
+      - 耳机
+    max_pages: 10
+
+# 定时任务配置
+schedule:
+  # 京东爬虫执行间隔 (小时)
+  jd_interval_hours: 2
+  # 淘宝爬虫执行间隔 (小时)
+  taobao_interval_hours: 4
+  # 苏宁爬虫执行间隔 (小时)
+  suning_interval_hours: 3
+  # 价格分析任务 (每天执行时间)
+  analysis_time: "02:00"
+
+# 数据存储配置
+storage:
+  # 启用 MySQL 存储
+  mysql: true
+  # 启用 MongoDB 存储
+  mongodb: true
+  # 启用 CSV 导出
+  csv: true
+  csv_output_dir: ./data/csv
+
+# 价格预警配置
+alerts:
+  enabled: false
+  # 降价幅度阈值 (百分比)
+  price_drop_threshold: 10
+  # 通知方式 (email/webhook)
+  notify_method: webhook
+  webhook_url: ""
+
+# 日志配置
+logging:
+  level: INFO
+  file: ./logs/price_monitor.log
+  max_size: 100MB
+  backup_count: 10

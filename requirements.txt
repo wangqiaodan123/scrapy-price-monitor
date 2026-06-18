@@ -1,0 +1,33 @@
+# 核心框架
+Scrapy==2.11.2
+scrapy-redis==0.9.1
+
+# 数据库
+PyMySQL==1.1.1
+pymongo==4.7.3
+redis==5.0.8
+DBUtils==3.1.0
+
+# 动态渲染
+selenium==4.23.1
+
+# 定时调度
+schedule==1.2.2
+
+# 数据分析与可视化
+pandas==2.2.2
+matplotlib==3.9.2
+numpy==1.26.4
+
+# 配置与工具
+PyYAML==6.0.2
+fake-useragent==1.5.1
+
+# 日志与监控
+loguru==0.7.2
+
+# HTTP 工具
+requests==2.32.3
+
+# 异步支持
+Twisted==24.7.0
